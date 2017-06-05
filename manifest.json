@@ -1,0 +1,26 @@
+{
+	"name": "Golden Brick",
+	"short_name": "Golden Brick",
+	"description": "Brick-hill notifier with a couple of more features.",
+	"version": "0.1.1",
+	"manifest_version": 2,
+	"incognito": "split",
+	"web_accessible_resources": [ "*.html", "https://www.brick-hill.com/*" ],
+	"permissions": ["notifications", "storage", "unlimitedStorage", "https://www.brick-hill.com/*"],
+	"icons": {
+		"128": "assets/images/logo.png",
+		"48": "assets/images/logo.png",
+		"16": "assets/images/logo.png"
+	},
+	"browser_action": {
+		"default_title": "Golden Brick",
+		"default_popup": "assets/html/popup.html"
+	},
+	"content_scripts": [{
+		"matches": ["https://www.brick-hill.com/*"],
+		"js": ["assets/js/jquery.js", "assets/js/data.js", "modules/antiadblock.js"]
+	}],
+	"background": {
+		"scripts": ["assets/js/jquery.js", "assets/js/data.js", "modules/responsivevoice.js", "modules/socket.io.js", "core.js", "modules/user.js", "modules/init.js"]
+	}
+}

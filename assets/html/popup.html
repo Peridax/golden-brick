@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link href="./../css/siimple.css" rel="stylesheet">
+	<link href="./../css/popup.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="main">
+		<div class="siimple-grid">
+			<div class="siimple-grid-row">
+				<div id="login" class="siimple-grid-row">
+
+					<div class="login-wrapper siimple-grid-col siimple-grid-col--6">
+						<div class="center siimple-h2">Login</div>
+
+						<div class="form-wrapper">
+							<input id="login-username" type="text" class="push-bottom siimple-input siimple-grid-col siimple-grid-col--12" placeholder="Username...">
+							<input id="login-password" type="password" class="push-bottom siimple-input siimple-grid-col siimple-grid-col--12" placeholder="Password...">
+							<div id="login-button" class="box siimple-btn siimple-btn--green">Login</div>
+
+							<div class="why small siimple-h6">Why login?</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div id="dashboard">
+					<div class="siimple-grid-col siimple-grid-col--6">
+						<div class="settings siimple-grid-col siimple-grid-col--12">
+							<div class="center siimple-h5">Settings</div>
+							<div class="first siimple-grid-col siimple-grid-col--6"></div>
+							<div class="second siimple-grid-col siimple-grid-col--6"></div>
+						</div>
+					</div>
+
+					<div class="quick-post siimple-grid-col siimple-grid-col--6">
+						<div class="center siimple-h5">Quick Post</div>
+						<div class="input-wrapper">
+							<div class="siimple-grid-col siimple-grid-col--12">
+								<input type="text" id="quick-title" class="content push-bottom siimple-input siimple-grid-col siimple-grid-col--8" placeholder="Thread Title">
+								<select id="quick-select" class="content right push-bottom siimple-input siimple-grid-col siimple-grid-col--4">
+									<option>Loading...</option>
+								</select>
+							</div>
+							<div class="siimple-grid-col siimple-grid-col--12">
+								<textarea id="quick-body" class="box push-bottom full siimple-textarea" placeholder="Thread Body"></textarea>
+								<div id="quick-post" class="full box push-bottom siimple-btn siimple-btn--green siimple-btn--disabled">Post</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="info">
+						<div class="version small siimple-h6">Version: <span id="version" class="siimple-color--green"></span></div>
+						<div class="online small siimple-h6">Online Users: <span id="online" class="siimple-color--green">0</span></div>
+						<div class="servers small siimple-h6">Games being hosted: <span id="servers" class="siimple-color--green">0</span></div>
+						<div class="connected small siimple-h6">Socket server: <span id="connected">Connected</span></div>
+					</div>
+
+					<div class="navigation">
+						<div class="admin small siimple-h6">Admin</div>
+						<div class="help small siimple-h6">Help</div>
+						<div class="logout small siimple-h6">Logout</div>
+					</div>
+				</div>
+
+				<div id="help">
+					<div class="halign-wrapper">
+						<div class="halign contact-post siimple-grid-col siimple-grid-col--8">
+							<div class="center siimple-h5">Contact Us</div>
+							<div class="input-wrapper">
+								<div class="siimple-grid-col siimple-grid-col--12">
+									<input type="text" id="contact-title" class="content push-bottom siimple-input siimple-grid-col siimple-grid-col--12" placeholder="Title...">
+								</div>
+								<div class="siimple-grid-col siimple-grid-col--12">
+									<textarea id="contact-body" class="box push-bottom full siimple-textarea" placeholder="Body..."></textarea>
+									<div id="contact-post" class="full box push-bottom siimple-btn siimple-btn--green">Send</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="info">
+						<div class="version small siimple-h6">Version: <span id="version" class="siimple-color--green"></span></div>
+						<div class="online small siimple-h6">Online Users: <span id="online" class="siimple-color--green">0</span></div>
+						<div class="servers small siimple-h6">Games being hosted: <span id="servers" class="siimple-color--green">0</span></div>
+						<div class="connected small siimple-h6">Socket server: <span id="connected">Connected</span></div>
+					</div>
+
+					<div class="navigation">
+						<div class="admin small siimple-h6">Admin</div>
+						<div class="dashboard small siimple-h6">Dashboard</div>
+						<div class="logout small siimple-h6">Logout</div>
+					</div>
+				</div>
+
+				<div id="admin">
+					<div class="info">
+						<div class="version small siimple-h6">Version: <span id="version" class="siimple-color--green"></span></div>
+						<div class="online small siimple-h6">Online Users: <span id="online" class="siimple-color--green">0</span></div>
+						<div class="servers small siimple-h6">Games being hosted: <span id="servers" class="siimple-color--green">0</span></div>
+						<div class="connected small siimple-h6">Socket server: <span id="connected">Connected</span></div>
+					</div>
+
+					<div class="navigation">
+						<div class="dashboard small siimple-h6">Dashboard</div>
+						<div class="help small siimple-h6">Help</div>
+						<div class="logout small siimple-h6">Logout</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script src="./../js/data.js"></script>
+	<script src="./../js/jquery.js"></script>
+	<script src="./../js/popup.js"></script>
+
+	</body>
+</html>
+

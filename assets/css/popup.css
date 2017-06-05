@@ -1,0 +1,215 @@
+body {
+	width: 755px;
+	height: 580px;
+}
+
+.fixed {
+	position: fixed;
+}
+
+.push-bottom {
+	margin-bottom: 10px;
+}
+
+.halign-wrapper {
+	display: flex;
+	width: 100%;
+}
+
+.valign-wrapper {
+
+}
+
+.halign {
+	margin: auto;
+}
+
+.valign {
+
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+.full {
+	width: 100%;
+}
+
+.anchor {
+	color: inherit;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.content {
+	-ms-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box; 
+	box-sizing: content-box;
+}
+
+.box {
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box; 
+	box-sizing: border-box;
+}
+
+.small {
+	font-size: 12px;
+}
+
+.title {
+	font-size: 40px;
+	font-weight: 700;
+}
+
+.first .option {
+	position: relative;
+    right: 10px;
+    text-align: right;
+}
+
+.second .option {
+	position: relative;
+    right: 10px;
+    text-align: right;
+}
+
+.lock {
+	resize: none;
+	height: 150px;
+}
+
+.version {
+	position: fixed;
+	left: 5px;
+	bottom: 54px;
+}
+
+.online {
+	position: fixed;
+	left: 5px;
+	bottom: 36px;
+}
+
+.servers {
+	position: fixed;
+	left: 5px;
+	bottom: 18px;
+}
+
+.connected {
+	position: fixed;
+	left: 5px;
+	bottom: 0px	;
+}
+
+.nav {
+	border-radius: 5px;
+	height: 50px;
+}
+
+.logout {
+	position: fixed;
+	right: 5px;
+	bottom: 0px;
+	cursor: pointer;
+}
+
+.help, .dashboard {
+	position: fixed;
+	right: 65px;
+	bottom: 0px;
+	cursor: pointer;
+}
+
+.admin {
+	position: fixed;
+	right: 110px;
+	bottom: 0px;
+	cursor: pointer;
+}
+
+.why {
+	position: relative;
+	bottom: 12px;
+	cursor: pointer;
+}
+
+.input-wrapper {
+	margin: 15px;
+}
+
+.login-wrapper {
+	margin: 100px auto;
+}
+
+.overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: none;
+	z-index: 5;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.notification {
+	position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    left: 0;
+    right: 0;
+    bottom: -120px;
+}
+
+.banned-text {
+	text-align: center;
+	margin-top: 230px;
+}
+
+#admin .dashboard {
+	right: 110px;
+}
+
+#help .dashboard {
+	right: 65px;
+}
+
+#help .admin {
+	right: 150px;
+}
+
+#login-button {
+	width: 100%;
+}
+
+#login {
+	display: flex;
+}
+
+#contact-body {
+	resize: none;
+	height: 150px;
+}
+
+#quick-title {
+	width: 59%;
+}
+
+#quick-body {
+	resize: none;
+	height: 150px;
+}
