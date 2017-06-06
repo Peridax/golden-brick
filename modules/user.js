@@ -1,3 +1,5 @@
+// Commit test.
+
 Core.prototype.user = function() {
 	$.get(`https://www.brick-hill.com/API/current_user`, function(Response) {
 
