@@ -1,5 +1,3 @@
-// Commit test.
-
 Core.prototype.user = function() {
 	$.get(`https://www.brick-hill.com/API/current_user`, function(Response) {
 
@@ -17,6 +15,9 @@ Core.prototype.user = function() {
 		localStorage.setItem('bucks', core.info.bucks); localStorage.setItem('bits', core.info.bits);
 
 		core.info.lastUpdated = Date.now();
+		
+		clearInterval(core.userIntervalWrap);
+		core.userIntervalWrap = setInterval(core.user, core.userInterval);
 
 	});
 }
