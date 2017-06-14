@@ -2,6 +2,7 @@ function Core() {
 	this.userInterval = 5000;
 	this.notifierInterval = 2500;
 	this.socket = io(server);
+	this.startup = true;
 
 	this.price;
 
@@ -10,6 +11,7 @@ function Core() {
 		logged: false,
 		bucks: 0,
 		bits: 0,
+		id: "",
 		lastUpdate: Date.now()
 	};
 
@@ -19,70 +21,63 @@ function Core() {
 		};
 	};
 
-	this.notifier = function(data) {
-	    if (core.info.logged) {
-	    	if ((data.special && (localStorage.getItem('opt_special') == 'true') || localStorage.getItem('opt_special') == undefined) || (!data.special && (localStorage.getItem('opt_item') == 'true') || localStorage.getItem('opt_item') == undefined)) {
-		        if (data.bucks == 0 || data.bits == 0) {
-		            core.price = 'Free'
-		        } else if (data.bucks > 0 && data.bits > 0) {
-		            core.price = data.bucks + ' Bucks & ' + data.bits + ' Bits'
-		        } else if (data.bits > 0) {
-		            core.price = data.bits + ' Bits'
-		        } else if (data.bucks > 0) {
-		            core.price = data.bucks + ' Bucks'
-		        } else {
-		            core.price = 'Not for sale'
-		        };
-
-		        chrome.notifications.create(data.url, {
-		            type: 'list',
-		            title: data.special ? 'New Special' : 'New Item',
-		            message: '',
-		            iconUrl: data.icon,
-		            items: [{
-		                title: data.name,
-		                message: ''
-		            }, {
-		                title: 'Price',
-		                message: core.price
-		            }],
-		            requireInteraction: true,
-		            isClickable: true
-		        }, function() {
-		            core.url = data.url;
-		            setTimeout(function() {
-		                chrome.notifications.clear(data.url);
-		            }, 30000);
-		        });
-
-		        if (parse(localStorage.getItem('opt_audio')) || localStorage.getItem('opt_audio') == undefined) {
-		        	responsiveVoice.speak(data.special ? "New Special" : "New Item");
-		        };
-		    };
-	    };
-	};
-
 	this.sockets = function() {
-		core.socket.on('connect', function(data) {
-			localStorage.setItem('connected', 'true');
-			chrome.notifications.clear('connected');
-			chrome.notifications.create('connected', {
-				type: 'basic',
-				title: 'Connected',
-				message: 'Successfully connected to peridax\'s server',
-				iconUrl: '../assets/images/logo.png'
-			});
-		});
-
 		core.socket.on('disconnect', function() {
 			localStorage.setItem('connected', 'false');
 			chrome.notifications.clear('disconnected');
 			chrome.notifications.create('disconnected', {
 				type: 'basic',
-				title: 'Disconnected',
-				message: 'Disconnected from peridax\'s server',
+				title: 'Disconnected From Server',
+				message: 'Server crashed! :(',
 				iconUrl: '../assets/images/logo.png'
 			});
+
+			core.startup = true;
+		});
+
+		core.socket.on('message', function(data) {
+			chrome.notifications.clear('message');
+			chrome.notifications.create('message', {
+				type: 'basic',
+				title: data.title,
+				message: data.message,
+				iconUrl: '../assets/images/logo.png'
+			});
+
+			if (data.type == "connected") {
+				localStorage.setItem('connected', 'true');
+			};
+		});
+
+		core.socket.on('announcement', function(data) {
+			chrome.notifications.clear('announcement');
+			chrome.notifications.create('announcement', {
+				type: 'basic',
+				title: data.title,
+				message: data.message,
+				iconUrl: '../assets/images/logo.png',
+				requireInteraction: true
+			}, function() {
+				setTimeout(function() {
+                	chrome.notifications.clear('announcement');
+            	}, 30000);
+			});
+		});
+
+		core.socket.on('dev', function(data) {
+			if (parse(localStorage.getItem('opt_dev'))) {
+				chrome.notifications.clear('dev');
+				chrome.notifications.create('message', {
+					type: 'basic',
+					title: data.title,
+					message: data.message,
+					iconUrl: '../assets/images/logo.png'
+				});
+			};
+		});
+
+		core.socket.on('key', function(data) {
+			localStorage.setItem('key', data);
 		});
 
 		core.socket.on('new item', function(data) {
@@ -106,5 +101,25 @@ function Core() {
 		      	uninstall();
 		    };
 		});
+
+		// Long Lived Connection
+		chrome.extension.onConnect.addListener(function(port) {
+			core.socket.removeListener('console');
+			core.socket.on('console', function(data) {
+				if (data.type == "log") {
+					port.postMessage({type: "log", log: data.int});
+				};
+			});
+
+			port.onMessage.addListener(function(data) {
+	           	if (data.type == "user count") {
+	           		core.socket.emit('admin', {key: localStorage.getItem('key'), type: data.type});
+	           	} else if (data.type == "users") {
+	           		core.socket.emit('admin', {key: localStorage.getItem('key'), type: data.type});
+	           	} else if (data.type == "message") {
+	           		core.socket.emit('admin', {key: localStorage.getItem('key'), type: data.type, message: data.message});
+	           	};
+	      	});
+	 	});
 	};
 };

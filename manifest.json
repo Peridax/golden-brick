@@ -2,7 +2,7 @@
 	"name": "Golden Brick",
 	"short_name": "Golden Brick",
 	"description": "Brick-hill notifier with a couple of more features.",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"manifest_version": 2,
 	"incognito": "split",
 	"web_accessible_resources": [ "*.html", "https://www.brick-hill.com/*" ],
@@ -21,6 +21,6 @@
 		"js": ["assets/js/jquery.js", "assets/js/data.js", "modules/antiadblock.js"]
 	}],
 	"background": {
-		"scripts": ["assets/js/jquery.js", "assets/js/data.js", "modules/responsivevoice.js", "modules/socket.io.js", "core.js", "modules/user.js", "modules/init.js"]
+		"scripts": ["assets/js/jquery.js", "assets/js/data.js", "modules/responsivevoice.js", "modules/socket.io.js", "core.js", "modules/user.js", "modules/notifier.js", "modules/init.js"]
 	}
 }

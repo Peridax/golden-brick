@@ -5,13 +5,11 @@ var str, newstr;
 var server = "http://peridax.com";
 var manifest = chrome.runtime.getManifest();
 var forceAdblock = false;
+var admins = ["peridax", "jefemy", "isaiah", "plastic bag"];
 
 if (localStorage.getItem('connected') == undefined) {
 	localStorage.setItem('connected', 'false');
 };
-
-const admins = ["wireframe", "peridax", "jefemy", "isaiah"];
-const banned = [];
 
 const parse = JSON.parse;
 const version = 0.2;

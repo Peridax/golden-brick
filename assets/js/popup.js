@@ -1,4 +1,5 @@
 function Popup() {
+	this.port = chrome.extension.connect();
 	this.timeout = false;
 	this.admin = false;
 	this.version = version;
@@ -44,6 +45,22 @@ function Popup() {
 			$('#' + this.id).prop('checked', parse(localStorage.getItem(this.id)));
 		}
 	}];
+	this.commands = [{
+		command: "help",
+		message: "displays all available commands"
+	}, {
+		command: "clear",
+		message: "clears the console"
+	}, {
+		command: "users",
+		message: "displays all connected users"
+	},{
+		command: "numusers",
+		message: "displays the number of connected users"
+	}, {
+		command: "message",
+		message: "sends an announcement to every connected user, to call type <b>message < message here ></b>"
+	}]
 	this.formats = [{
 		sign: "**",
 		first: "[b]",
@@ -79,6 +96,7 @@ function Popup() {
 
 		popup.info();
 		popup.handler();
+		popup.console();
 	};
 
 	this.post = function() {
@@ -199,11 +217,11 @@ function Popup() {
 		$(window).keypress(function(event) {
 			if (event.which == 13 && $('#login-password').is(':focus')) {
 				popup.login();
-			}
+			};
 
 			if (event.which == 13 && $('#status').is(':focus')) {
 				popup.status();
-			}
+			};
 		});
 
 		$('.opt').change(function() {
@@ -244,11 +262,9 @@ function Popup() {
 	this.display = function(element, display) {
 		popup.admin = false;
 
-		for (i in admins) {
-			if (localStorage.getItem('username').toLowerCase() == admins[i]) {
-				popup.admin = true;
-			}
-		}
+		if (admins.includes(localStorage.getItem('username').toLowerCase())) {
+			popup.admin = true;
+		};
 
 		$('#login').css('display', 'none');
 		$('#dashboard').css('display', 'none');
@@ -344,6 +360,52 @@ function Popup() {
 	this.empty = function() {
 		$('input').val('');
 		$('textarea').val('');
+	};
+
+	this.console = function() {
+		$('#console-form').submit(function(e) {
+			e.preventDefault();
+			var con = $('#console');
+			var input = $('#console-input');
+
+			if (input.val().length) {
+				switch (input.val().toLowerCase()) {
+					case "clear":
+						con.html('');
+						break;
+					case "help":
+						var helpmsg = ""
+						for (i in popup.commands) {
+							helpmsg += '<b>' + popup.commands[i].command + '</b> - ' + popup.commands[i].message + '<br>';
+						};
+						con.append('<div class="console-log">' + helpmsg + '</div>');
+						break;
+					case "numusers":
+						popup.port.postMessage({type: "user count"});
+						break;
+					case "users":
+						popup.port.postMessage({type: "users"});
+						break;
+					default:
+						if (input.val().split(' ')[0].toLowerCase() == "message") {
+							popup.port.postMessage({type: "message", message: input.val().split('message ').join('')});
+						} else {
+							con.append('<div class="console-log">Command not found</div>');
+						};
+				};
+
+				con.stop().animate({
+  					scrollTop: con[0].scrollHeight
+				}, 0);
+				input.val('');
+			};
+		});
+
+		popup.port.onMessage.addListener(function(msg) {
+			if (msg.type == "log") {
+				$('#console').append('<div class="console-log">' + msg.log + '</div>');
+			};
+		});
 	};
 }
 
