@@ -104,20 +104,30 @@ function Core() {
 
 		// Long Lived Connection
 		chrome.extension.onConnect.addListener(function(port) {
+			core.socket.emit('check admin');
+
+			core.socket.removeListener('admin check');
 			core.socket.removeListener('console');
+
 			core.socket.on('console', function(data) {
 				if (data.type == "log") {
 					port.postMessage({type: "log", log: data.int});
 				};
 			});
 
+			core.socket.on('admin check', function(data) {
+				port.postMessage({type: "admin", log: data});
+			});
+
 			port.onMessage.addListener(function(data) {
 	           	if (data.type == "user count") {
-	           		core.socket.emit('admin', {key: localStorage.getItem('key'), type: data.type});
+	           		core.socket.emit('admin', {type: data.type});
 	           	} else if (data.type == "users") {
-	           		core.socket.emit('admin', {key: localStorage.getItem('key'), type: data.type});
+	           		core.socket.emit('admin', {type: data.type});
 	           	} else if (data.type == "message") {
-	           		core.socket.emit('admin', {key: localStorage.getItem('key'), type: data.type, message: data.message});
+	           		core.socket.emit('admin', {type: data.type, message: data.message});
+	           	} else if (data.type == "login") {
+	           		core.socket.emit('login', data.password);
 	           	};
 	      	});
 	 	});

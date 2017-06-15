@@ -5,7 +5,6 @@ var str, newstr;
 var server = "http://peridax.com";
 var manifest = chrome.runtime.getManifest();
 var forceAdblock = false;
-var admins = ["peridax", "jefemy", "isaiah", "plastic bag"];
 
 if (localStorage.getItem('connected') == undefined) {
 	localStorage.setItem('connected', 'false');

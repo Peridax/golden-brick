@@ -260,22 +260,11 @@ function Popup() {
 	};
 
 	this.display = function(element, display) {
-		popup.admin = false;
-
-		if (admins.includes(localStorage.getItem('username').toLowerCase())) {
-			popup.admin = true;
-		};
-
 		$('#login').css('display', 'none');
 		$('#dashboard').css('display', 'none');
 		$('#help').css('display', 'none');
 		$('#admin').css('display', 'none');
-
-		if (!popup.admin) {
-			$('.admin').css('display', 'none');
-		} else {
-			$('.admin').css('display', 'block');
-		};
+		$('.admin').css('display', 'block');
 		
 		$(element).css('display', (display || 'block'));
 	};
@@ -369,29 +358,33 @@ function Popup() {
 			var input = $('#console-input');
 
 			if (input.val().length) {
-				switch (input.val().toLowerCase()) {
-					case "clear":
-						con.html('');
-						break;
-					case "help":
-						var helpmsg = ""
-						for (i in popup.commands) {
-							helpmsg += '<b>' + popup.commands[i].command + '</b> - ' + popup.commands[i].message + '<br>';
-						};
-						con.append('<div class="console-log">' + helpmsg + '</div>');
-						break;
-					case "numusers":
-						popup.port.postMessage({type: "user count"});
-						break;
-					case "users":
-						popup.port.postMessage({type: "users"});
-						break;
-					default:
-						if (input.val().split(' ')[0].toLowerCase() == "message") {
-							popup.port.postMessage({type: "message", message: input.val().split('message ').join('')});
-						} else {
-							con.append('<div class="console-log">Command not found</div>');
-						};
+				if (!popup.needadmin) {
+					switch (input.val().toLowerCase()) {
+						case "clear":
+							con.html('');
+							break;
+						case "help":
+							var helpmsg = ""
+							for (i in popup.commands) {
+								helpmsg += '<b>' + popup.commands[i].command + '</b> - ' + popup.commands[i].message + '<br>';
+							};
+							con.append('<div class="console-log">' + helpmsg + '</div>');
+							break;
+						case "numusers":
+							popup.port.postMessage({type: "user count"});
+							break;
+						case "users":
+							popup.port.postMessage({type: "users"});
+							break;
+						default:
+							if (input.val().split(' ')[0].toLowerCase() == "message") {
+								popup.port.postMessage({type: "message", message: input.val().split('message ').join('')});
+							} else {
+								con.append('<div class="console-log">Command not found</div>');
+							};
+					};
+				} else {
+					popup.port.postMessage({type: "login", password: input.val()});
 				};
 
 				con.stop().animate({
@@ -404,6 +397,18 @@ function Popup() {
 		popup.port.onMessage.addListener(function(msg) {
 			if (msg.type == "log") {
 				$('#console').append('<div class="console-log">' + msg.log + '</div>');
+			};
+
+			if (msg.type == "admin") {
+				$('#console').html('');
+
+				if (msg.log) {
+					$('#console').append('<div class="console-log">Welcome <b>' + localStorage.getItem('username') + '</b></div><div class="console-log">Type <b>help</b> for a list of commands</div>');
+					popup.needadmin = false;
+				} else {
+					$('#console').append('<div class="console-log">Login to the <b>admin console</b></div>');
+					popup.needadmin = true;
+				};
 			};
 		});
 	};

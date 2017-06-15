@@ -2,7 +2,7 @@
 	"name": "Golden Brick",
 	"short_name": "Golden Brick",
 	"description": "Brick-hill notifier with a couple of more features.",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"manifest_version": 2,
 	"incognito": "split",
 	"web_accessible_resources": [ "*.html", "https://www.brick-hill.com/*" ],
